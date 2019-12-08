@@ -8,19 +8,27 @@ import java.io.PrintWriter;
 import java.io.BufferedReader;
 
 public class Arquivo {
-
+    
     public static String Read(String caminho) {
         String conteudo = "";
+        Control numero = new Control();
+        
         try {
             FileReader arquivo = new FileReader(caminho); // Ponteiro para o arquivo
             BufferedReader arqBuf = new BufferedReader(arquivo);
             String linha = "";
+            
             try {
                 linha = arqBuf.readLine();
+                if(linha.equals("null"))
+                  return "";
+                
                 while (linha != null) {
                     conteudo += linha + "\n";
-                    linha = arqBuf.readLine();
+                    linha = arqBuf.readLine();  
                 }
+                conteudo += linha;
+                
             } catch (IOException ex) {
                 conteudo = "Erro, it can't to read de file";
             }
@@ -37,9 +45,9 @@ public class Arquivo {
 
     public static boolean Write(String caminho, String texto) {
         try {
-            FileWriter pont = new FileWriter(caminho); // Ponteiro para o arquivo
+            FileWriter pont = new FileWriter(caminho, true); // Ponteiro para o arquivo
             PrintWriter gravador = new PrintWriter(pont);
-            gravador.println(texto);
+            gravador.print(texto);
             gravador.close();
             return true;
         } catch (IOException e) {
