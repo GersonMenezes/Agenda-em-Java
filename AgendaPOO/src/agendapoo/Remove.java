@@ -24,10 +24,11 @@ public class Remove extends Control{
                         i++;
                     }
                     contador--;
-                    break;
+                    System.out.println("\nRemoved with success...\n");
+                    return;
                  }  
              }
-            System.out.println("\nName not found\n");
+            System.out.println("\nName not found...\n");
         }
     }
 }

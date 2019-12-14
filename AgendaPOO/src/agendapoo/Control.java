@@ -15,8 +15,8 @@ public class Control {
         return contador;
     }
     
-    public void setContador(int num){
-        contador = contador + num;
+    public static void setContador(int num){
+        contador = num;
     }
     
     public static String getAll(){
@@ -24,28 +24,66 @@ public class Control {
         int i = 0;
         if(contador == 0){
            System.out.println("\n\n Empty book\n\n ");
-           return "Corno";
+           return "";
         }
         while(i<contador){
+            
+            if(book[i] instanceof  RegisterBookPlus){
             allThings = allThings + book[i].getFirstName() + ";" +
                     book[i].getLastName() + ";" +
                     book[i].getEmail() + ";" +
                     book[i].getAdress() + ";" +
-                    (char)book[i].getNumber() + "\n";
+                    book[i].getNumber() + ";" + book[i].getProfession() + ";" + book[i].getAge() + "\n";
+            
+            }
+            
+            else{
+            allThings = allThings + book[i].getFirstName() + ";" +
+                    book[i].getLastName() + ";" +
+                    book[i].getEmail() + ";" +
+                    book[i].getAdress() + ";" +
+                    book[i].getNumber() + "\n";     
+            }
+            
             i++;
         }
+            
         return allThings;
     }
+    
     public static void printAll(){
         
-        for(int i=0; i<contador;i++){
-        System.out.println(book[i].getFirstName() +
-                    book[i].getLastName() +
-                    book[i].getEmail() +
-                    book[i].getAdress() + 
-                    (char)book[i].getNumber());
-        
+        if(contador == 0){
+            System.out.println("\nThe register book is empty\n");
+            return;
         }
+        else{
+            for(int i=0; i<contador;i++){
+                
+                if(book[i] instanceof  RegisterBookPlus){
+                        System.out.println(book[i].getFirstName() + " " +
+                        book[i].getLastName() + " - " +
+                        book[i].getEmail() + " - " +
+                        book[i].getAdress() + " - " +
+                        book[i].getNumber() + " - " + 
+                        book[i].getProfession() + " - " + 
+                        book[i].getAge()); 
+                }
+                else{
+                        System.out.println(book[i].getFirstName() + " " +
+                        book[i].getLastName() + " - " +
+                        book[i].getEmail() + " - " +
+                        book[i].getAdress() + " - " +
+                        book[i].getNumber()); 
+                }
+                
+            }
+        }
+    }
+    
+    public static void printControl(){
+        
+        System.out.println("\nNumber of records: " + contador + "  Register capacity: " + book.length + "\n");
     }
     public static void setFileRead(String data){
         String linha;
@@ -53,13 +91,12 @@ public class Control {
         String lastName = "Empty";
         String email = "Empty";
         String adress = "Empty";
-        int number = 0;
+        String number = "Zero";
+        String profession;
+        String age;
         int i = 0;
         //RegisterBook novo;
-        if(data.equals("\n")){
-            System.out.println("Empty File: ");
-            return;
-        }
+        
         while(i<100){
             
             linha = data.split("\n")[i];
@@ -72,21 +109,58 @@ public class Control {
                     }
                      book = novoVet;
                      }
-                firstName = linha.split(";")[0];
-                System.out.println("First name:  "+ i + firstName);
-                lastName = linha.split(";")[1];
-                System.out.println("Last Name: " +i+ lastName);
-                email = linha.split(";")[2];
-                adress = linha.split(";")[3];
-                number = 1;
-                book[contador] = new RegisterBook(firstName, lastName, email, adress, number);
-                contador++;
+                int total = 0;
+                for(int q=0; q < linha.length();q++){  
+                      char ch = linha.charAt(q);    
+                       //System.out.println("ch  : "+ ch);
+                       if(ch == ';'){  
+                          total=total+1;  
+
+		            }  
+		        }  
+	   
+                System.out.println("Total: " + total);
+                
+                    if(total==4){
+                        firstName = linha.split(";")[0];
+                        lastName = linha.split(";")[1];
+                        email = linha.split(";")[2];
+                        adress = linha.split(";")[3];
+                        number = linha.split(";")[4];
+                        book[contador] = new RegisterBook(firstName, lastName, email, adress, number);
+                        contador++;
+                    }
+                    else if(total==6){
+                        firstName = linha.split(";")[0];
+                        lastName = linha.split(";")[1];
+                        email = linha.split(";")[2];
+                        adress = linha.split(";")[3];
+                        number = linha.split(";")[4];
+                        profession = linha.split(";")[5];
+                        age = linha.split(";")[6];
+                        book[contador] = new RegisterBookPlus(firstName, lastName, email, adress, number, profession,age);
+                        contador++;
+                    }
             }
             else if(linha.equals("null")){
-                System.out.println("Okay baby\n");
+                System.out.println("\nThat's okay\n");
                 break;
             }
             i++;
         }
     }
 }
+
+                       /* int total=0;  
+	   
+		        for(int i=0; i<x.length();i++){  
+                              char ch = x.charAt(i);  
+		            String x1 = String.valueOf(ch);  
+		              
+                             if(x1.equalsIgnoreCase("a")){  
+		                total=total+1;  
+	   
+		            }  
+		        }  
+	   
+                          System.out.println(total); */

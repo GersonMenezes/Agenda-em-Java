@@ -9,9 +9,9 @@ import java.io.BufferedReader;
 
 public class Arquivo {
     
-    public static String Read(String caminho) {
+    public static String Read(String caminho) 
+    {
         String conteudo = "";
-        Control numero = new Control();
         
         try {
             FileReader arquivo = new FileReader(caminho); // Ponteiro para o arquivo
@@ -20,9 +20,6 @@ public class Arquivo {
             
             try {
                 linha = arqBuf.readLine();
-                if(linha.equals("null"))
-                  return "";
-                
                 while (linha != null) {
                     conteudo += linha + "\n";
                     linha = arqBuf.readLine();  
@@ -44,9 +41,22 @@ public class Arquivo {
     }
 
     public static boolean Write(String caminho, String texto) {
-        try {
-            FileWriter pont = new FileWriter(caminho, true); // Ponteiro para o arquivo
+        try {                                                   // Nao estava conseguindo nao sobrescrever
+            FileWriter pont = new FileWriter(caminho, true); // Ponteiro para o arquivo. Segundo argumento faz nao sobrescrever antigo file
             PrintWriter gravador = new PrintWriter(pont);
+            gravador.print(texto);
+            gravador.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    
+    public static boolean overWrite(String caminho, String texto) {
+        try {
+            FileWriter pont = new FileWriter(caminho); // Ponteiro para o arquivo
+            PrintWriter gravador = new PrintWriter(pont); // Gravador de arquivo
             gravador.print(texto);
             gravador.close();
             return true;
